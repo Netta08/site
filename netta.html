@@ -3,54 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Entry Portfolio</title>
+    <title>귀여운네타 Portfolio</title>
     <style>
         :root {
-            --entry-blue: #00bbff;
-            --bg-color: #f0f2f5;
+            --main-purple: #b19cd9;
+            --light-purple: #e6e6fa;
+            --dark-purple: #9370db;
+            --bg-grad: linear-gradient(135deg, #f3e5f5 0%, #e8eaf6 100%);
+            --card-bg: rgba(255, 255, 255, 0.8);
         }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        
-        /* 프로필 상단 */
-        .profile-card { background: white; width: 90%; max-width: 500px; margin-top: 50px; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .avatar { width: 100px; height: 100px; border-radius: 50%; background: #ddd; margin: 0 auto 15px; border: 4px solid var(--entry-blue); }
-        h1 { margin: 10px 0; color: #333; }
-        .badge { display: inline-block; background: var(--entry-blue); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; margin-bottom: 20px; }
-        
-        /* 버튼 메뉴 */
-        .links { width: 90%; max-width: 500px; margin-top: 20px; }
-        .link-item { background: white; display: block; padding: 15px; margin-bottom: 12px; border-radius: 15px; text-decoration: none; color: #444; font-weight: bold; transition: 0.3s; border: 1px solid transparent; text-align: center; }
-        .link-item:hover { transform: translateY(-3px); border-color: var(--entry-blue); color: var(--entry-blue); }
 
-        /* 작품 갤러리 살짝 추가 */
-        .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .work-item { background: #eee; height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #777; cursor: pointer; }
+        /* 모든 요소의 크기 계산 방식을 통일 (가로 길이 맞춤의 핵심) */
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Pretendard', sans-serif;
+            background: var(--bg-grad);
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden;
+        }
+
+        .cursor-glow {
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(177, 156, 217, 0.4) 0%, rgba(177, 156, 217, 0.1) 45%, rgba(177, 156, 217, 0) 70%);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 5;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        /* [수정] 상단 카드와 하단 버튼의 가로 길이를 400px로 통일 */
+        .profile-card, .links {
+            width: 90%;
+            max-width: 400px; /* 가로 길이 고정 */
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            margin-top: 60px; border-radius: 30px;
+            padding: 40px 20px; text-align: center;
+            box-shadow: 0 15px 35px rgba(177, 156, 217, 0.1);
+            position: relative; z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .avatar {
+            width: 110px; height: 110px;
+            border-radius: 50%; border: 4px solid #fff;
+            box-shadow: 0 8px 20px rgba(147, 112, 219, 0.15);
+        }
+
+        h1 {
+            font-size: 1.7rem; margin: 15px 0 5px;
+            background: linear-gradient(to right, #9370db, #b19cd9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            display: inline-block; background: var(--main-purple);
+            color: white; padding: 4px 14px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: bold; margin-bottom: 20px;
+        }
+
+        .links { margin-top: 20px; position: relative; z-index: 10; }
+
+        .link-item {
+            background: rgba(255, 255, 255, 0.9); display: block; padding: 16px;
+            margin-bottom: 12px; border-radius: 18px;
+            text-decoration: none; color: #555; font-weight: bold;
+            transition: 0.3s; border: 1px solid rgba(177, 156, 217, 0.05);
+            text-align: center;
+            width: 100%; /* 부모 너비에 맞춤 */
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            background: var(--main-purple); color: white;
+            box-shadow: 0 10px 20px rgba(177, 156, 217, 0.2);
+        }
+
+        .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+        .work-item {
+            background: rgba(255, 255, 255, 0.6); height: 85px;
+            border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #777; cursor: pointer; transition: 0.3s;
+        }
+
+        .work-item:hover { background: white; color: var(--dark-purple); }
+
+        footer { margin: 40px 0; color: #b19cd9; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
+    <div class="cursor-glow" id="glow"></div>
+
     <div class="profile-card">
-        <div class="avatar">
-            <img src="https://playentry.org/uploads/79/bf/79bf5ed3m7ork8p20006e4a2cf22w8e5.png" width="100%" style="border-radius: 50%;">
-        </div>
+        <img src="https://playentry.org/uploads/79/bf/79bf5ed3m7ork8p20006e4a2cf22w8e5.png" class="avatar">
         <h1>귀여운네타</h1>
         <div class="badge">ENTRY DEVELOPER</div>
-        <p>"네타는 귀엽다"</p>
+        <p style="color:#8e8e8e; font-size: 0.85rem;">"네타는 귀엽다 (진지)"</p>
     </div>
 
     <div class="links">
-        <a href="https://naver.me/G2FWrRdO" class="link-item" target="_blank">🚀 엔트리 프로필 바로가기</a>
-        <a href="https://www.youtube.com/@%EB%84%A4%ED%83%80" class="link-item">🎥 유튜브 채널 바로가기</a>
+        <a href="https://naver.me/G2FWrRdO" class="link-item" target="_blank">🚀 엔트리 프로필</a>
+        <a href="https://www.youtube.com/@%EB%84%A4%ED%83%80" class="link-item" target="_blank">🎥 유튜브 채널</a>
 
         <div class="work-grid">
-            <div class="work-item" onclick="location.href='https://playentry.org/project/68ea85407c2203e78a84ac40'">🎮 인기 작품 1</div>
-            <div class="work-item" onclick="location.href='https://playentry.org/project/697f60657241ef5117e8297f'">🕹️ 최신 작품 2</div>
+            <div class="work-item" onclick="window.open('https://playentry.org/project/68ea85407c2203e78a84ac40')">🎮 작품 1</div>
+            <div class="work-item" onclick="window.open('https://playentry.org/project/697f60657241ef5117e8297f')">🕹️ 작품 2</div>
         </div>
-
-        <a href="#" class="link-item">💬 건의 및 피드백 주러가기</a>
     </div>
 
-    <p style="color: #aaa; font-size: 0.8rem; margin-top: 40px;">© 2026 내이름. Made with Gemini</p>
+    <footer>© 2026 귀여운네타. 💜 Width Balanced</footer>
 
+    <script>
+        const glow = document.getElementById('glow');
+        let mouseX = -500, mouseY = -500;
+        let ballX = mouseX, ballY = mouseY;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            ballX += (mouseX - ballX) * 0.1;
+            ballY += (mouseY - ballY) * 0.1;
+            glow.style.transform = `translate(calc(${ballX}px - 50%), calc(${ballY}px - 50%))`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>
