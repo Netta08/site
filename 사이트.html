@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Entry Portfolio</title>
+    <style>
+        :root {
+            --entry-blue: #00bbff;
+            --bg-color: #f0f2f5;
+        }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        
+        /* 프로필 상단 */
+        .profile-card { background: white; width: 90%; max-width: 500px; margin-top: 50px; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .avatar { width: 100px; height: 100px; border-radius: 50%; background: #ddd; margin: 0 auto 15px; border: 4px solid var(--entry-blue); }
+        h1 { margin: 10px 0; color: #333; }
+        .badge { display: inline-block; background: var(--entry-blue); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; margin-bottom: 20px; }
+        
+        /* 버튼 메뉴 */
+        .links { width: 90%; max-width: 500px; margin-top: 20px; }
+        .link-item { background: white; display: block; padding: 15px; margin-bottom: 12px; border-radius: 15px; text-decoration: none; color: #444; font-weight: bold; transition: 0.3s; border: 1px solid transparent; text-align: center; }
+        .link-item:hover { transform: translateY(-3px); border-color: var(--entry-blue); color: var(--entry-blue); }
+
+        /* 작품 갤러리 살짝 추가 */
+        .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .work-item { background: #eee; height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #777; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <div class="avatar">
+            <img src="https://playentry.org/uploads/79/bf/79bf5ed3m7ork8p20006e4a2cf22w8e5.png" width="100%" style="border-radius: 50%;">
+        </div>
+        <h1>귀여운네타</h1>
+        <div class="badge">ENTRY DEVELOPER</div>
+        <p>"네타는 귀엽다"</p>
+    </div>
+
+    <div class="links">
+        <a href="https://naver.me/G2FWrRdO" class="link-item" target="_blank">🚀 엔트리 프로필 바로가기</a>
+        <a href="https://www.youtube.com/@%EB%84%A4%ED%83%80" class="link-item">🎥 유튜브 채널 바로가기</a>
+
+        <div class="work-grid">
+            <div class="work-item" onclick="location.href='https://playentry.org/project/68ea85407c2203e78a84ac40'">🎮 인기 작품 1</div>
+            <div class="work-item" onclick="location.href='https://playentry.org/project/697f60657241ef5117e8297f'">🕹️ 최신 작품 2</div>
+        </div>
+
+        <a href="#" class="link-item">💬 건의 및 피드백 주러가기</a>
+    </div>
+
+    <p style="color: #aaa; font-size: 0.8rem; margin-top: 40px;">© 2026 내이름. Made with Gemini</p>
+
+</body>
+</html>
