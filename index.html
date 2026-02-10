@@ -9,7 +9,7 @@
             --main-purple: #b19cd9;
             --bg-color: #f1eff7;
             --card-bg: #ffffff;
-            --tab-height: 130px; 
+            --tab-height: 100px; 
         }
 
         html { overflow-y: scroll; }
@@ -74,7 +74,7 @@
             min-height: 1000px;
         }
 
-        /* 상단 고정 영역: 라운딩 제거 버전 */
+        /* 상단 고정 영역 */
         .tab-wrapper {
             position: fixed;
             top: 0px; 
@@ -83,18 +83,18 @@
             height: var(--tab-height);
             display: flex;
             align-items: center;
+            padding-top: 25px; 
             background: rgba(241, 239, 247, 0.8); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             z-index: 100;
-            /* border-radius를 제거했습니다 */
         }
 
         .tab-menu { 
             display: flex; 
             gap: 20px; 
             align-items: center; 
-            padding-left: 10px;
+            padding-left: 375px;
         }
 
         .tab-button {
@@ -121,7 +121,7 @@
 
         .content-section { 
             display: none; 
-            padding-top: calc(var(--tab-height) + 20px); 
+            padding-top: 80px; 
         }
         .content-section.active { display: block; animation: fadeIn 0.3s ease-out; }
 
@@ -134,26 +134,63 @@
             padding-bottom: 50px;
         }
 
+        /* --- 작품 박스 & 오버레이 스타일 수정 --- */
         .work-box {
+            position: relative; /* 오버레이의 기준점 */
             aspect-ratio: 16 / 10;
             background: #ddd;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid rgba(255,255,255,0.8);
             box-shadow: 0 5px 20px rgba(0,0,0,0.02);
             overflow: hidden;
         }
+
         .work-box img {
             width: 100%; height: 100%;
             object-fit: cover; display: block;
             transition: transform 0.3s ease;
         }
+
+        /* 호버 시 나타날 보러가기 레이어 */
+        .work-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(108, 108, 108, 0.4); /* 배경색 투명도를 조금 낮춤 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 2;
+    backdrop-filter: blur(5px); /* 배경 블러 효과 추가 */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.work-overlay span {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 10px 25px;
+    border: none; /* 테두리 제거 */
+    background: rgba(0, 0, 0, 0.2); /* 텍스트가 잘 보이게 아주 옅은 배경 추가 (선택사항) */
+    border-radius: 50px;
+}
+
+/* 마우스 올렸을 때 */
+.work-box:hover .work-overlay {
+    opacity: 1;
+}
+
+        /* 호버 효과 통합 */
         .work-box:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(177, 156, 217, 0.2);
         }
         .work-box:hover img { transform: scale(1.05); }
+        .work-box:hover .work-overlay { opacity: 1; } /* 마우스 올리면 보임 */
 
         @media (max-width: 1000px) {
             .main-container { flex-direction: column; align-items: center; }
@@ -236,12 +273,22 @@
                 const box = document.createElement('div');
                 box.className = 'work-box';
                 box.onclick = () => window.open(link);
+                
                 const projectId = link.split('/').pop();
                 const thumbUrl = `https://playentry.org/uploads/thumb/${projectId.substring(0, 4)}/${projectId}.png`;
+                
+                // 1. 이미지 추가
                 const img = document.createElement('img');
                 img.src = thumbUrl;
                 img.onerror = () => { img.src = 'https://playentry.org/img/assets/empty_project.png'; };
                 box.appendChild(img);
+
+                // 2. 오버레이(보러가기) 추가
+                const overlay = document.createElement('div');
+                overlay.className = 'work-overlay';
+                overlay.innerHTML = '<span>보러가기</span>';
+                box.appendChild(overlay);
+
                 grid.appendChild(box);
             });
         }
