@@ -7,139 +7,257 @@
     <style>
         :root {
             --main-purple: #b19cd9;
-            --light-purple: #e6e6fa;
-            --dark-purple: #9370db;
-            --bg-grad: linear-gradient(135deg, #f3e5f5 0%, #e8eaf6 100%);
-            --card-bg: rgba(255, 255, 255, 0.8);
+            --bg-color: #f1eff7;
+            --card-bg: #ffffff;
+            --tab-height: 130px; 
         }
 
-        /* 모든 요소의 크기 계산 방식을 통일 (가로 길이 맞춤의 핵심) */
-        * { box-sizing: border-box; }
+        html { overflow-y: scroll; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0; padding: 0;
             font-family: 'Pretendard', sans-serif;
-            background: var(--bg-grad);
-            min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            overflow-x: hidden;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center;
+            min-height: 100vh; padding: 40px 20px;
+            scrollbar-gutter: stable;
         }
 
-        .cursor-glow {
-            width: 180px; height: 180px;
-            background: radial-gradient(circle, rgba(177, 156, 217, 0.4) 0%, rgba(177, 156, 217, 0.1) 45%, rgba(177, 156, 217, 0) 70%);
-            border-radius: 50%;
-            position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 5;
-            transform: translate(-50%, -50%);
-            will-change: transform;
+        .main-container {
+            display: flex; gap: 40px;
+            width: 100%; max-width: 1400px;
+            align-items: flex-start;
         }
 
-        /* [수정] 상단 카드와 하단 버튼의 가로 길이를 400px로 통일 */
-        .profile-card, .links {
-            width: 90%;
-            max-width: 400px; /* 가로 길이 고정 */
+        /* 좌측 사이드바 */
+        .sidebar {
+            flex: 0 0 320px;
+            display: flex; flex-direction: column; gap: 15px;
+            position: sticky; top: 40px;
+            z-index: 10;
         }
 
         .profile-card {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            margin-top: 60px; border-radius: 30px;
-            padding: 40px 20px; text-align: center;
-            box-shadow: 0 15px 35px rgba(177, 156, 217, 0.1);
-            position: relative; z-index: 10;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px; padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(177, 156, 217, 0.1);
         }
 
         .avatar {
             width: 110px; height: 110px;
-            border-radius: 50%; border: 4px solid #fff;
-            box-shadow: 0 8px 20px rgba(147, 112, 219, 0.15);
+            background: #000; border-radius: 50%;
+            margin-bottom: 20px; border: 4px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        h1 {
-            font-size: 1.7rem; margin: 15px 0 5px;
-            background: linear-gradient(to right, #9370db, #b19cd9);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
+        .profile-card h1 { font-size: 1.7rem; color: var(--main-purple); }
         .badge {
             display: inline-block; background: var(--main-purple);
-            color: white; padding: 4px 14px; border-radius: 20px;
-            font-size: 0.8rem; font-weight: bold; margin-bottom: 20px;
+            color: white; padding: 6px 16px; border-radius: 20px;
+            font-size: 0.85rem; font-weight: bold; margin-top: 10px;
         }
-
-        .links { margin-top: 20px; position: relative; z-index: 10; }
 
         .link-item {
-            background: rgba(255, 255, 255, 0.9); display: block; padding: 16px;
-            margin-bottom: 12px; border-radius: 18px;
-            text-decoration: none; color: #555; font-weight: bold;
-            transition: 0.3s; border: 1px solid rgba(177, 156, 217, 0.05);
-            text-align: center;
-            width: 100%; /* 부모 너비에 맞춤 */
+            background: var(--card-bg); padding: 18px;
+            border-radius: 20px; text-decoration: none; color: #555;
+            font-weight: bold; text-align: center;
+            transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            display: block; margin-top: 0px;
+        }
+        .link-item:hover { background: var(--main-purple); color: white; transform: translateY(-3px); }
+
+        .content-area { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 1000px;
         }
 
-        .link-item:hover {
-            transform: translateY(-3px);
-            background: var(--main-purple); color: white;
-            box-shadow: 0 10px 20px rgba(177, 156, 217, 0.2);
+        /* 상단 고정 영역: 라운딩 제거 버전 */
+        .tab-wrapper {
+            position: fixed;
+            top: 0px; 
+            width: calc(100% - 320px - 40px - 40px); 
+            max-width: calc(1400px - 320px - 40px);
+            height: var(--tab-height);
+            display: flex;
+            align-items: center;
+            background: rgba(241, 239, 247, 0.8); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 100;
+            /* border-radius를 제거했습니다 */
         }
 
-        .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-
-        .work-item {
-            background: rgba(255, 255, 255, 0.6); height: 85px;
-            border-radius: 18px; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #777; cursor: pointer; transition: 0.3s;
+        .tab-menu { 
+            display: flex; 
+            gap: 20px; 
+            align-items: center; 
+            padding-left: 10px;
         }
 
-        .work-item:hover { background: white; color: var(--dark-purple); }
+        .tab-button {
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 25px; 
+            border-radius: 15px; 
+            border: none;
+            background: rgba(255, 255, 255, 0.7); 
+            color: #777;
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s;
+            line-height: 1;
+        }
 
-        footer { margin: 40px 0; color: #b19cd9; font-size: 0.75rem; }
+        .tab-button.active {
+            background: var(--main-purple); 
+            color: white;
+            box-shadow: 0 5px 15px rgba(177, 156, 217, 0.3);
+        }
+
+        .content-section { 
+            display: none; 
+            padding-top: calc(var(--tab-height) + 20px); 
+        }
+        .content-section.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding-bottom: 50px;
+        }
+
+        .work-box {
+            aspect-ratio: 16 / 10;
+            background: #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+            overflow: hidden;
+        }
+        .work-box img {
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            transition: transform 0.3s ease;
+        }
+        .work-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(177, 156, 217, 0.2);
+        }
+        .work-box:hover img { transform: scale(1.05); }
+
+        @media (max-width: 1000px) {
+            .main-container { flex-direction: column; align-items: center; }
+            .sidebar { width: 100%; max-width: 500px; position: static; }
+            .content-area { width: 100%; }
+            .tab-wrapper { 
+                position: sticky; 
+                width: 100%; 
+                max-width: none;
+                left: 0;
+                padding: 0 20px;
+                top: 0;
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="cursor-glow" id="glow"></div>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <img src="https://playentry.org/uploads/79/bf/79bf5ed3m7ork8p20006e4a2cf22w8e5.png" class="avatar">
+                <h1>귀여운네타</h1>
+                <div class="badge">ENTRY DEVELOPER</div>
+                <p style="color:#999; font-size:0.9rem; margin-top:20px;">네타는 귀엽다</p>
+            </div>
+            <a href="https://naver.me/G2FWrRdO" class="link-item" target="_blank">마이페이지</a>
+            <a href="https://www.youtube.com/@%EB%84%A4%ED%83%80" class="link-item" target="_blank">유튜브 채널</a>
+            <a href="https://open.kakao.com/o/gCDEnClf" class="link-item" target="_blank">오픈채팅방</a>
+        </aside>
 
-    <div class="profile-card">
-        <img src="https://playentry.org/uploads/79/bf/79bf5ed3m7ork8p20006e4a2cf22w8e5.png" class="avatar">
-        <h1>귀여운네타</h1>
-        <div class="badge">ENTRY DEVELOPER</div>
-        <p style="color:#8e8e8e; font-size: 0.85rem;">네타는 귀엽다</p>
+        <main class="content-area">
+            <div class="tab-wrapper">
+                <div class="tab-menu">
+                    <button class="tab-button active" onclick="openTab(event, 'popular')">인기 작품 (<span id="pop-count">0</span>)</button>
+                    <button class="tab-button" onclick="openTab(event, 'staff')">스태프 선정 (<span id="staff-count">0</span>)</button>
+                </div>
+            </div>
+
+            <section id="popular" class="content-section active">
+                <div class="grid" id="pop-grid"></div>
+            </section>
+
+            <section id="staff" class="content-section">
+                <div class="grid" id="staff-grid"></div>
+            </section>
+        </main>
     </div>
-
-    <div class="links">
-        <a href="https://naver.me/G2FWrRdO" class="link-item" target="_blank">🚀 엔트리 프로필</a>
-        <a href="https://www.youtube.com/@%EB%84%A4%ED%83%80" class="link-item" target="_blank">🎥 유튜브 채널</a>
-
-        <div class="work-grid">
-            <div class="work-item" onclick="window.open('https://playentry.org/project/68ea85407c2203e78a84ac40')">🎮 작품 1</div>
-            <div class="work-item" onclick="window.open('https://playentry.org/project/697f60657241ef5117e8297f')">🕹️ 작품 2</div>
-        </div>
-    </div>
-
-    <footer>© 2026 귀여운네타. 💜 Width Balanced</footer>
 
     <script>
-        const glow = document.getElementById('glow');
-        let mouseX = -500, mouseY = -500;
-        let ballX = mouseX, ballY = mouseY;
+        const popularLinks = [
+            "https://playentry.org/project/63dd1aba4c70b2808cf549ca",
+            "https://playentry.org/project/646b529d8b9a360037a52ed3",
+            "https://playentry.org/project/64744bf9fad7ba001a100bbb",
+            "https://playentry.org/project/64b8b22ff8964a002c9ccb13",
+            "https://playentry.org/project/65199b4b5cf4a8003795c59b",
+            "https://playentry.org/project/65b6098ee837b7002501ba09",
+            "https://playentry.org/project/666583838101c7e880073827",
+            "https://playentry.org/project/6780e8b6ccf1ebf116c14fad",
+            "https://playentry.org/project/68ea85407c2203e78a84ac40",
+            "https://playentry.org/project/697f60657241ef5117e8297f",
+        ];
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+        const staffLinks = [
+            "https://playentry.org/project/63dd1aba4c70b2808cf549ca",
+            "https://playentry.org/project/642e98ad20635d0037e6fef6",
+            "https://playentry.org/project/64fb2b44a28f930069a210a3",
+            "https://playentry.org/project/65b6098ee837b7002501ba09",
+            "https://playentry.org/project/665b06fc38407aac7847bf20",
+            "https://playentry.org/project/6780e8b6ccf1ebf116c14fad",
+        ];
 
-        function animate() {
-            ballX += (mouseX - ballX) * 0.1;
-            ballY += (mouseY - ballY) * 0.1;
-            glow.style.transform = `translate(calc(${ballX}px - 50%), calc(${ballY}px - 50%))`;
-            requestAnimationFrame(animate);
+        function createBoxes(links, gridId, countId) {
+            const grid = document.getElementById(gridId);
+            document.getElementById(countId).innerText = links.length;
+            const reversedLinks = [...links].reverse();
+
+            reversedLinks.forEach(link => {
+                const box = document.createElement('div');
+                box.className = 'work-box';
+                box.onclick = () => window.open(link);
+                const projectId = link.split('/').pop();
+                const thumbUrl = `https://playentry.org/uploads/thumb/${projectId.substring(0, 4)}/${projectId}.png`;
+                const img = document.createElement('img');
+                img.src = thumbUrl;
+                img.onerror = () => { img.src = 'https://playentry.org/img/assets/empty_project.png'; };
+                box.appendChild(img);
+                grid.appendChild(box);
+            });
         }
-        animate();
+
+        function openTab(evt, tabName) {
+            const sections = document.getElementsByClassName("content-section");
+            for (let i = 0; i < sections.length; i++) sections[i].classList.remove("active");
+            const buttons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            window.scrollTo(0, 0);
+        }
+
+        createBoxes(popularLinks, 'pop-grid', 'pop-count');
+        createBoxes(staffLinks, 'staff-grid', 'staff-count');
     </script>
 </body>
 </html>
-
