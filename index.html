@@ -105,7 +105,32 @@
         .content-area { flex: 1; display: flex; flex-direction: column; min-height: 1000px; }
         .tab-wrapper { position: fixed; top: 0px; width: calc(100% - 320px - 80px); max-width: calc(1400px - 360px); height: var(--tab-height); display: flex; align-items: center; padding-top: 25px; background: rgba(241, 239, 247, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; }
         .tab-menu { display: flex; gap: 20px; align-items: center; }
-        .tab-button { height: 46px; display: flex; align-items: center; justify-content: center; padding: 0 25px; border-radius: 15px; border: none; background: rgba(255, 255, 255, 0.7); color: #777; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .tab-button {
+    height: 46px;
+    display: flex;         /* 내부에 들어가는 글자들을 일렬로 세움 */
+    align-items: center;   /* 수직 정중앙 정렬 */
+    justify-content: center;
+    padding: 0 25px;
+    border-radius: 15px;
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
+    color: #777;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    
+    /* 핵심 수정 사항: 높낮이 튀는 현상 방지 */
+    line-height: 1;        /* 줄 간격을 최소화해서 폰트 높이 간섭 제거 */
+    font-size: 15px;       /* 폰트 크기 명시 */
+    font-family: 'Pretendard', -apple-system, sans-serif; /* 폰트 우선순위 지정 */
+}
+
+/* 활성화된 버튼도 동일하게 유지 */
+.tab-button.active {
+    background: var(--main-purple);
+    color: white;
+    box-shadow: 0 5px 15px rgba(177, 156, 217, 0.3);
+}
         .tab-button.active { background: var(--main-purple); color: white; box-shadow: 0 5px 15px rgba(177, 156, 217, 0.3); }
         .content-section { display: none; padding-top: 80px; }
         .content-section.active { display: block; animation: fadeIn 0.3s ease-out; }
